@@ -1,0 +1,4 @@
+- reader papers -> chose 3 most usefull and why (write it down)
+- reader about the games
+- setup the environment
+- 
