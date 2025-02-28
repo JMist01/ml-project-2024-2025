@@ -1,4 +1,4 @@
 - reader papers -> chose 3 most usefull and why (write it down)
 - reader about the games
 - setup the environment
-- 
+- Read about the algorithms (a) e-greedy Q-learning, (b) Boltzmann Q-learning, and (c) Lenient Boltzmann Q-learning
