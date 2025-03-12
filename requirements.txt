@@ -2,7 +2,7 @@ pettingzoo[butterfly]
 torch
 numpy
 pygame
-ray[rllib]
+ray[rllib]==2.42.1
 SuperSuit
 dm_tree
 lz4
