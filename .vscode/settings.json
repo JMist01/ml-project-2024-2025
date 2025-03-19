@@ -1,5 +1,0 @@
-{
-    "ruff.enable": false,
-    "editor.formatOnSave": false,
-    "errorLens.enabled": false
-}
