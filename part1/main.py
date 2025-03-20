@@ -2,7 +2,7 @@ import random
 
 import matplotlib
 import matplotlib.pyplot as plt
-from game import Game, MatchingPennies
+from game import Game, PrisonersDilemma
 from policy import BoltzmannPolicy, EpsilonGreedyPolicy, QLearningPolicy
 from visualization import plot_vector_field, visualize_policy_traces
 
@@ -90,20 +90,24 @@ def run_experiment(game: Game):
         training_runs=20,
     )
 
-    fig, ax = plt.subplots(figsize=(12, 8))
+    _, ax = plt.subplots(figsize=(12, 8))
 
-    ax, q = plot_vector_field(
-        game.rewards,
-        grid_size=20,
-        ax=ax,
-        fig=fig,
+    plot_vector_field(game.rewards, ax=ax)
+
+    visualize_policy_traces(history, ax=ax)
+
+    # plt.tight_layout()
+
+    ax.set_xlabel(f"P1 probability of selecting action {game.action_names[0]}")
+    ax.set_ylabel(f"P2 probability of selecting action {game.action_names[0]}")
+    ax.set_title(
+        f"Empirical policy traces {game.name} with overlayed replicator dynamics"
     )
 
-    ax = visualize_policy_traces(history, game.name, game.action_names, ax=ax)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.grid(True)
 
-    ax.legend()
-
-    plt.tight_layout()
     plt.show()
     print("\nFinal Q-values:")
     print(f"Player 1: {[q for q in q_val_p1]}")
@@ -112,5 +116,5 @@ def run_experiment(game: Game):
 
 if __name__ == "__main__":
     # run_experiment(StagHunt())
-    # run_experiment(PrisonersDilemma())
-    run_experiment(MatchingPennies())
+    run_experiment(PrisonersDilemma())
+    # run_experiment(MatchingPennies())
