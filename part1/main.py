@@ -2,10 +2,9 @@ import random
 
 import matplotlib
 import matplotlib.pyplot as plt
-
-from game import Game, StagHunt
+from game import Game, MatchingPennies
 from policy import BoltzmannPolicy, EpsilonGreedyPolicy, QLearningPolicy
-from visualization import visualize_policy_traces
+from visualization import plot_vector_field, visualize_policy_traces
 
 matplotlib.use("TkAgg")
 
@@ -21,7 +20,9 @@ def train(
     histories = []
     q_values_p1 = []
     q_values_p2 = []
+
     for i in range(training_runs):
+        lr = learning_rate
         print(f"Training run:{i}")
         action_counts_p1 = [0, 0]
         action_counts_p2 = [0, 0]
@@ -39,6 +40,7 @@ def train(
 
         for episode in range(episodes):
             if episode % 100 == 0:
+                lr = lr * 0.9
                 print(f"Episode {episode} of training run {i}")
             action_p1 = qlearning.select_action(q_val_p1)
             action_p2 = qlearning.select_action(q_val_p2)
@@ -47,8 +49,8 @@ def train(
 
             reward_p1, reward_p2 = rewards_mat[action_p1][action_p2]
 
-            q_val_p1[action_p1] += learning_rate * (reward_p1 - q_val_p1[action_p1])
-            q_val_p2[action_p2] += learning_rate * (reward_p2 - q_val_p2[action_p2])
+            q_val_p1[action_p1] += lr * (reward_p1 - q_val_p1[action_p1])
+            q_val_p2[action_p2] += lr * (reward_p2 - q_val_p2[action_p2])
 
             if episode % save_interval == 0 or episode == episodes - 1:
                 history["episodes"].append(episode)
@@ -82,32 +84,33 @@ def run_experiment(game: Game):
     q_val_p1, q_val_p2, history = train(
         rewards_mat=game.rewards,
         qlearning=qlearning,
-        episodes=10000,
-        learning_rate=0.01,
+        episodes=1000,
+        learning_rate=0.03,
         save_interval=1,
         training_runs=20,
     )
 
-    # visualize_training(
-    #     histories=history, action_names=game.action_names, game_name=game.name
-    # )
+    fig, ax = plt.subplots(figsize=(12, 8))
 
-    visualize_policy_traces(history, game.name, game.action_names)
+    ax, q = plot_vector_field(
+        game.rewards,
+        grid_size=20,
+        ax=ax,
+        fig=fig,
+    )
 
+    ax = visualize_policy_traces(history, game.name, game.action_names, ax=ax)
+
+    ax.legend()
+
+    plt.tight_layout()
+    plt.show()
     print("\nFinal Q-values:")
     print(f"Player 1: {[q for q in q_val_p1]}")
     print(f"Player 2: {[q for q in q_val_p2]}")
 
-    # final_policy_p1 = calculate_policy_from_q(q_val_p1, 0.1)
-    # final_policy_p2 = calculate_policy_from_q(q_val_p2, 0.1)
-    # print("\nFinal Policies (probability of selecting each action):")
-    # print(f"Player 1: {[round(p, 3) for p in final_policy_p1]}")
-    # print(f"Player 2: {[round(p, 3) for p in final_policy_p2]}")
-
 
 if __name__ == "__main__":
-    run_experiment(StagHunt())
-    # stag_hunt()
-    # mathching_pennies()
-    plt.show()
-    print("end")
+    # run_experiment(StagHunt())
+    # run_experiment(PrisonersDilemma())
+    run_experiment(MatchingPennies())
