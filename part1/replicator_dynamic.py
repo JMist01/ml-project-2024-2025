@@ -1,6 +1,7 @@
 import numpy as np
 
 
+# TODO: it's wrong, for boltzmann and lenianct boltzmann plots will look different...
 def compute_vector_field(rewards, grid_size=20):
     A = np.zeros((2, 2))
     B = np.zeros((2, 2))
