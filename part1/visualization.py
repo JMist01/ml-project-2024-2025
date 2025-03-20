@@ -6,7 +6,6 @@ from replicator_dynamic import compute_vector_field
 
 
 def visualize_policy_traces(histories, game_name, action_names, ax=None):
-    # Use provided axes or create new ones if none provided
     if ax is None:
         _, ax = plt.subplots(figsize=(10, 8))
 
@@ -26,7 +25,6 @@ def visualize_policy_traces(histories, game_name, action_names, ax=None):
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.grid(True)
-    # ax.legend()
 
     return ax
 
@@ -40,7 +38,6 @@ def plot_vector_field(
     fig=None,
 ):
     X, Y, U, V = compute_vector_field(rewards, grid_size)
-    # Calculate vector magnitudes for coloring
     magnitudes = np.sqrt(U**2 + V**2)
 
     if ax is None:
