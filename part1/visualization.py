@@ -15,8 +15,8 @@ def visualize_policy_traces(histories, ax):
         ax.plot(p1_probs, p2_probs, linewidth=2, color=colors[i], label=labels[i])
 
 
-def plot_vector_field(rewards, ax, grid_size=20):
-    X, Y, U, V = compute_vector_field(rewards, grid_size)
+def plot_vector_field(policy, rewards, ax, grid_size=20):
+    X, Y, U, V = compute_vector_field(policy, rewards, grid_size)
     magnitudes = np.sqrt(U**2 + V**2)
 
     ax.quiver(X, Y, U, V, magnitudes, width=0.002, pivot="tail")

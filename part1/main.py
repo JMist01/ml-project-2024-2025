@@ -64,8 +64,8 @@ def train(
 
 def run_experiment(game: Game):
     iqlearning = EpsilonGreedyPolicy(0.1)
-    qlearning = BoltzmannPolicy(0.3)
-    learning = LenientBoltzmannPolicy()
+    learning = BoltzmannPolicy(0.3)
+    qlearning = LenientBoltzmannPolicy()
     q_val_p1, q_val_p2, history = train(
         rewards_mat=game.rewards,
         qlearning=qlearning,
@@ -76,7 +76,7 @@ def run_experiment(game: Game):
 
     _, ax = plt.subplots(figsize=(12, 8))
 
-    plot_vector_field(game.rewards, ax=ax)
+    plot_vector_field(qlearning, game.rewards, ax=ax)
 
     visualize_policy_traces(history, ax=ax)
 
@@ -98,6 +98,6 @@ def run_experiment(game: Game):
 
 if __name__ == "__main__":
     run_experiment(StagHunt())
-    run_experiment(PrisonersDilemma())
-    run_experiment(MatchingPennies())
-    run_experiment(SubsidyGame())
+    # run_experiment(PrisonersDilemma())
+    # run_experiment(MatchingPennies())
+    # run_experiment(SubsidyGame())

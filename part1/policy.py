@@ -76,7 +76,7 @@ class BoltzmannPolicy(QLearningPolicy):
 
 class LenientBoltzmannPolicy(QLearningPolicy):
     def __init__(self) -> None:
-        self.K = 1
+        self.K = 25  # TODO: ite seems taht K does not affect anything... -> look at the paper
         self.BETA = 0.99
         self.INIT_TEMPT = 5
         self.temps = np.ones((2, 2)) * self.INIT_TEMPT
@@ -114,6 +114,8 @@ class LenientBoltzmannPolicy(QLearningPolicy):
         # Apply leniency
         if not (x < leniency and td_error_p1 <= 0):
             q_val_p1[action_p1] += lr * td_error_p1
+        else:
+            print("lency not app,iled")
 
         td_error_p2 = reward_p2 - q_val_p2[action_p2]
         # Apply leniency
