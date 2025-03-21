@@ -70,7 +70,6 @@ def compute_replicator_field(rewards, grid_size, policy):
                             diff_term = (S_leq**policy.K - S_lt**policy.K) / S_eq
                             additional_term[i] += b_ji * x_j * diff_term
                 Bx = additional_term
-                Bx2 = additional_term
             else:
                 # Bx = B @ x_policy.T
                 Bx = B @ x_policy
@@ -78,7 +77,7 @@ def compute_replicator_field(rewards, grid_size, policy):
                 policy.LR
                 * y_prob
                 * (
-                    ((Bx)[0] - (y_policy @ Bx)) / policy.TEMPERATURE
+                    ((Bx)[0] - (y_policy.T @ Bx)) / policy.TEMPERATURE
                     - (
                         np.log(y_policy[0])
                         - y_policy[0] * np.log(y_policy[0])

@@ -97,8 +97,8 @@ if __name__ == "__main__":
     lr = 0.01
     # run_all_games(lr)
     learning = EpsilonGreedyPolicy(0.2, lr)
-    learning = BoltzmannPolicy(0.3, lr)
-    qlearning = LenientBoltzmannPolicy(0.3, lr)
+    qlearning = BoltzmannPolicy(0.3, lr)
+    learning = LenientBoltzmannPolicy(0.3, lr)
     run_experiment(StagHunt(), qlearning)
     # run_experiment(PrisonersDilemma())
     # run_experiment(MatchingPennies())
