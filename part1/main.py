@@ -63,20 +63,21 @@ def train(
 
 
 def run_experiment(game: Game):
-    iqlearning = EpsilonGreedyPolicy(0.1)
+    learning = EpsilonGreedyPolicy(0.2)
     learning = BoltzmannPolicy(0.3)
     qlearning = LenientBoltzmannPolicy()
+    lr = 0.01
     q_val_p1, q_val_p2, history = train(
         rewards_mat=game.rewards,
         qlearning=qlearning,
         episodes=1000,
-        learning_rate=0.005,
-        training_runs=20,
+        learning_rate=lr,
+        training_runs=10,
     )
 
     _, ax = plt.subplots(figsize=(12, 8))
 
-    plot_vector_field(qlearning, game.rewards, ax=ax)
+    plot_vector_field(qlearning, game.rewards, ax=ax, grid_size=20, lr=lr)
 
     visualize_policy_traces(history, ax=ax)
 
@@ -95,6 +96,11 @@ def run_experiment(game: Game):
     print(f"Player 1: {[q for q in q_val_p1]}")
     print(f"Player 2: {[q for q in q_val_p2]}")
 
+
+# TODO:
+# 1. tyr fix not spend too much time
+# 2. how did paper invluved mu approche -> dimitires (section of the papers)
+# 3. save to plots to files (each game, each learing alg, differten K valeus for leniant)
 
 if __name__ == "__main__":
     run_experiment(StagHunt())

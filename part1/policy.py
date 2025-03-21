@@ -24,27 +24,30 @@ class QLearningPolicy(ABC):
 class EpsilonGreedyPolicy(QLearningPolicy):
     def __init__(self, epsilon):
         self.epsilon = epsilon
+        self.temperature = 1
 
     def _select_action(self, q_values):
         if random.random() < self.epsilon:
-            return random.randint(0, len(q_values) - 1)
+            return random.randint(0, 1)
         else:
             return int(np.argmax(q_values))
 
     def update_step(self, rewards, q_val_p1, q_val_p2, lr):
         action_p1 = self._select_action(q_val_p1)
         action_p2 = self._select_action(q_val_p2)
+        # TODO: there is some peroblem with choeing acton
 
         reward_p1, reward_p2 = rewards[action_p1][action_p2]
 
         q_val_p1[action_p1] += lr * (reward_p1 - q_val_p1[action_p1])
         q_val_p2[action_p2] += lr * (reward_p2 - q_val_p2[action_p2])
 
+    # TODO: somre problem here with epsilon
     def get_action_probabilities(self, q_values):
-        num_actions = len(q_values)
-        probabilities = [self.epsilon / num_actions] * num_actions
+        return q_values / np.sqrt(np.sum(q_values[0] ** 2 + q_values[1] ** 2))
+        probabilities = [self.epsilon] * 2
         best_action = int(np.argmax(q_values))
-        probabilities[best_action] += 1 - self.epsilon
+        probabilities[best_action] = 1 - self.epsilon
         return probabilities
 
 
@@ -70,6 +73,7 @@ class BoltzmannPolicy(QLearningPolicy):
 
         reward_p1, reward_p2 = rewards[action_p1][action_p2]
 
+        # TODO: is this correct way to implment Q_leraning?
         q_val_p1[action_p1] += lr * (reward_p1 - q_val_p1[action_p1])
         q_val_p2[action_p2] += lr * (reward_p2 - q_val_p2[action_p2])
 
@@ -77,8 +81,8 @@ class BoltzmannPolicy(QLearningPolicy):
 class LenientBoltzmannPolicy(QLearningPolicy):
     def __init__(self) -> None:
         self.K = 25  # TODO: ite seems taht K does not affect anything... -> look at the paper
-        self.BETA = 0.99
-        self.INIT_TEMPT = 5
+        self.BETA = 0.9
+        self.INIT_TEMPT = 3
         self.temps = np.ones((2, 2)) * self.INIT_TEMPT
         self.temperature = 0.3
 
@@ -110,6 +114,7 @@ class LenientBoltzmannPolicy(QLearningPolicy):
         leniency = self._get_leniency(action_p1, action_p2)
         x = random.random()
 
+        # TODO: mb use the same q-valeu for each player
         td_error_p1 = reward_p1 - q_val_p1[action_p1]
         # Apply leniency
         if not (x < leniency and td_error_p1 <= 0):

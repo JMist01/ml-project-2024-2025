@@ -57,7 +57,7 @@ def compute_vector_field(policy, rewards, grid_size=20, lr=0.1):
             q_val_p2 = [0, -q_diff_p2]
 
             # Track policy change over many simulated updates
-            num_samples = 1000
+            num_samples = 200
             new_p1_probs = np.zeros(2)
             new_p2_probs = np.zeros(2)
 
@@ -68,21 +68,21 @@ def compute_vector_field(policy, rewards, grid_size=20, lr=0.1):
                 q2_sample = q_val_p2.copy()
 
                 # Perform update step according to policy type
-                if isinstance(policy, LenientBoltzmannPolicy):
-                    # Simulate lenient update
-                    policy.update_step(rewards, q1_sample, q2_sample, lr)
-                else:
-                    # Standard Boltzmann update
-                    action_p1 = np.random.choice(
-                        2, p=[p1_prob_action0, 1 - p1_prob_action0]
-                    )
-                    action_p2 = np.random.choice(
-                        2, p=[p2_prob_action0, 1 - p2_prob_action0]
-                    )
-                    reward_p1, reward_p2 = rewards[action_p1][action_p2]
+                # if isinstance(policy, LenientBoltzmannPolicy):
+                # Simulate lenient update
+                policy.update_step(rewards, q1_sample, q2_sample, lr)
+                # else:
+                #     # Standard Boltzmann update
+                #     action_p1 = np.random.choice(
+                #         2, p=[p1_prob_action0, 1 - p1_prob_action0]
+                #     )
+                #     action_p2 = np.random.choice(
+                #         2, p=[p2_prob_action0, 1 - p2_prob_action0]
+                #     )
+                #     reward_p1, reward_p2 = rewards[action_p1][action_p2]
 
-                    q1_sample[action_p1] += lr * (reward_p1 - q1_sample[action_p1])
-                    q2_sample[action_p2] += lr * (reward_p2 - q2_sample[action_p2])
+                #     q1_sample[action_p1] += lr * (reward_p1 - q1_sample[action_p1])
+                #     q2_sample[action_p2] += lr * (reward_p2 - q2_sample[action_p2])
 
                 # Get updated probabilities
                 updated_probs_p1 = policy._boltzmann_probs(q1_sample)
