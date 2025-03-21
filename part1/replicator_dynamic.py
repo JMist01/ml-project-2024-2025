@@ -57,7 +57,7 @@ def compute_vector_field(policy, rewards, grid_size=20, lr=0.1):
             q_val_p2 = [0, -q_diff_p2]
 
             # Track policy change over many simulated updates
-            num_samples = 200
+            num_samples = 1000
             new_p1_probs = np.zeros(2)
             new_p2_probs = np.zeros(2)
 
@@ -94,6 +94,25 @@ def compute_vector_field(policy, rewards, grid_size=20, lr=0.1):
             # Average probabilities after updates
             new_p1_probs /= num_samples
             new_p2_probs /= num_samples
+
+            # TODO: what if i used the q-values as payoff martix?
+            # x_policy = new_p1_probs
+            # y_policy = new_p2_probs
+            # x_policy = np.transpose(x_policy)
+            # A = q1_sample
+            # B = q2_sample
+            # aaa =np.dot(A, y_policy)
+            # np.dot(np.dot(x_policy, A), y_policy)
+            # dx = x_policy[0] * (
+            #     np.dot(A, y_policy)[0] - np.dot(np.dot(x_policy, A), y_policy)
+            # )
+            # dy = y_policy[0] * (
+            #     np.dot(x_policy, B)[0] - np.dot(np.dot(x_policy, B), y_policy)
+            # )
+
+            # X_derivative[i, j] = dx
+            # Y_derivative[i, j] = dy
+            #
 
             # Calculate derivative (change in probability)
             X_derivative[i, j] = new_p1_probs[0] - p1_prob_action0

@@ -1,10 +1,12 @@
+import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
 import numpy as np
+from game import *
+from policy import EpsilonGreedyPolicy, QLearningPolicy
 from replicator_dynamic import compute_vector_field
 
 
 def visualize_policy_traces(histories, ax):
-    # Mark beginning and end of traces with different symbols
     labels = [f"Run {i + 1}" for i in range(len(histories))]
     cmap = plt.get_cmap("tab10")
     colors = [cmap(i / len(histories)) for i in range(len(histories))]
@@ -15,10 +17,8 @@ def visualize_policy_traces(histories, ax):
         p1_probs = [policy[0] for policy in p1_policies]
         p2_probs = [policy[0] for policy in p2_policies]
 
-        # Plot the trajectory line
         ax.plot(p1_probs, p2_probs, linewidth=2, color=colors[i], label=labels[i])
 
-        # Mark beginning of trajectory with a circle
         ax.scatter(
             p1_probs[0],
             p2_probs[0],
@@ -30,7 +30,6 @@ def visualize_policy_traces(histories, ax):
             zorder=10,
         )
 
-        # Mark end of trajectory with a star
         ax.scatter(
             p1_probs[-1],
             p2_probs[-1],
@@ -44,10 +43,68 @@ def visualize_policy_traces(histories, ax):
 
 
 def plot_vector_field(policy, rewards, ax, grid_size, lr):
-    X, Y, U, V = compute_vector_field(policy, rewards, grid_size, lr * 10)
+    if isinstance(policy, EpsilonGreedyPolicy):
+        return
+    X, Y, U, V = compute_vector_field(policy, rewards, grid_size, lr)
     magnitudes = np.sqrt(U**2 + V**2)
 
     ax.quiver(X, Y, U, V, magnitudes, width=0.002, pivot="tail")
+
+
+def configure_figure(qlearning: QLearningPolicy, game: Game, ax):
+    if isinstance(qlearning, EpsilonGreedyPolicy):
+        ax.set_title(f"Empirical policy traces {game.name} ({qlearning.name})")
+        ax.set_xlabel(
+            f"Normalized Q-values for player 1 for action {game.action_names[0]}"
+        )
+        ax.set_ylabel(
+            f"Normalized Q-values for player 2 for action {game.action_names[0]}"
+        )
+    else:
+        ax.set_title(
+            f"Empirical policy traces {game.name} with overlayed replicator dynamics ({qlearning.name})"
+        )
+        ax.set_xlabel(
+            f"Probability for player 2 of selecting action {game.action_names[0]}.png"
+        )
+        ax.set_ylabel(
+            f"Probability for player 2 of selecting action {game.action_names[0]}"
+        )
+
+    ax.set_xlim(-0.01, 1.01)
+    ax.set_ylim(-0.01, 1.01)
+    ax.grid(True)
+
+    begin_point = mlines.Line2D(
+        [],
+        [],
+        marker="o",
+        linestyle="None",
+        markersize=10,
+        markeredgecolor="black",
+        markeredgewidth=1.5,
+        label="Beginning of trace",
+    )
+
+    end_point = mlines.Line2D(
+        [],
+        [],
+        marker="*",
+        linestyle="None",
+        markersize=12,
+        markeredgecolor="black",
+        markeredgewidth=1.5,
+        label="End of trace",
+    )
+
+    handles, labels = ax.get_legend_handles_labels()
+
+    handles = [begin_point, end_point]
+    labels = ["Beginning of trace", "End of trace"]
+
+    ax.legend(handles=handles, labels=labels, loc="lower right")
+    plt.savefig(f"./plots/replicator_trajectoreis_{game.name}_{qlearning.name}")
+    plt.show(block=False)
 
 
 # def visualize_training(histories, action_names, game_name):

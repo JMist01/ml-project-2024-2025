@@ -5,6 +5,8 @@ import numpy as np
 
 
 class QLearningPolicy(ABC):
+    name: str
+
     @abstractmethod
     def _select_action(self, q_values) -> int:
         pass
@@ -22,6 +24,8 @@ class QLearningPolicy(ABC):
 
 
 class EpsilonGreedyPolicy(QLearningPolicy):
+    name = "epsilon_greedy"
+
     def __init__(self, epsilon):
         self.epsilon = epsilon
         self.temperature = 1
@@ -44,7 +48,7 @@ class EpsilonGreedyPolicy(QLearningPolicy):
 
     # TODO: somre problem here with epsilon
     def get_action_probabilities(self, q_values):
-        return q_values / np.sqrt(np.sum(q_values[0] ** 2 + q_values[1] ** 2))
+        return q_values / np.sqrt(np.sum(np.array(q_values) ** 2))
         probabilities = [self.epsilon] * 2
         best_action = int(np.argmax(q_values))
         probabilities[best_action] = 1 - self.epsilon
@@ -52,6 +56,8 @@ class EpsilonGreedyPolicy(QLearningPolicy):
 
 
 class BoltzmannPolicy(QLearningPolicy):
+    name = "boltzmann"
+
     def __init__(self, temperature):
         self.temperature = temperature
 
@@ -79,6 +85,8 @@ class BoltzmannPolicy(QLearningPolicy):
 
 
 class LenientBoltzmannPolicy(QLearningPolicy):
+    name = "lenient_boltzmann"
+
     def __init__(self) -> None:
         self.K = 25  # TODO: ite seems taht K does not affect anything... -> look at the paper
         self.BETA = 0.9

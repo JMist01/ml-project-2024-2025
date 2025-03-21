@@ -9,7 +9,7 @@ from policy import (
     LenientBoltzmannPolicy,
     QLearningPolicy,
 )
-from visualization import plot_vector_field, visualize_policy_traces
+from visualization import configure_figure, plot_vector_field, visualize_policy_traces
 
 matplotlib.use("TkAgg")
 
@@ -62,17 +62,14 @@ def train(
     return (q_values_p1, q_values_p2, histories)
 
 
-def run_experiment(game: Game):
-    learning = EpsilonGreedyPolicy(0.2)
-    learning = BoltzmannPolicy(0.3)
-    qlearning = LenientBoltzmannPolicy()
+def run_experiment(game: Game, qlearning: QLearningPolicy):
     lr = 0.01
     q_val_p1, q_val_p2, history = train(
         rewards_mat=game.rewards,
         qlearning=qlearning,
         episodes=1000,
         learning_rate=lr,
-        training_runs=10,
+        training_runs=40,
     )
 
     _, ax = plt.subplots(figsize=(12, 8))
@@ -80,18 +77,7 @@ def run_experiment(game: Game):
     plot_vector_field(qlearning, game.rewards, ax=ax, grid_size=20, lr=lr)
 
     visualize_policy_traces(history, ax=ax)
-
-    ax.set_xlabel(f"P1 probability of selecting action {game.action_names[0]}")
-    ax.set_ylabel(f"P2 probability of selecting action {game.action_names[0]}")
-    ax.set_title(
-        f"Empirical policy traces {game.name} with overlayed replicator dynamics"
-    )
-
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.grid(True)
-
-    plt.show()
+    configure_figure(qlearning, game, ax)
     print("\nFinal Q-values:")
     print(f"Player 1: {[q for q in q_val_p1]}")
     print(f"Player 2: {[q for q in q_val_p2]}")
@@ -99,11 +85,30 @@ def run_experiment(game: Game):
 
 # TODO:
 # 1. tyr fix not spend too much time
-# 2. how did paper invluved mu approche -> dimitires (section of the papers)
+# 2. how did paper invluved mu approche -> dimitires (section of the papers) DONE
 # 3. save to plots to files (each game, each learing alg, differten K valeus for leniant)
 
+
+def run_all_policies(game: Game):
+    run_experiment(game, EpsilonGreedyPolicy(0.2))
+    run_experiment(game, BoltzmannPolicy(0.3))
+    run_experiment(game, LenientBoltzmannPolicy())
+
+
+def run_all_games():
+    run_all_policies(StagHunt())
+    run_all_policies(PrisonersDilemma())
+    run_all_policies(MatchingPennies())
+    run_all_policies(SubsidyGame())
+
+
 if __name__ == "__main__":
-    run_experiment(StagHunt())
+    run_all_games()
+    # learning = EpsilonGreedyPolicy(0.2)
+    # learning = BoltzmannPolicy(0.3)
+    # qlearning = LenientBoltzmannPolicy()
+    # run_experiment(StagHunt(), qlearning)
     # run_experiment(PrisonersDilemma())
     # run_experiment(MatchingPennies())
     # run_experiment(SubsidyGame())
+    plt.show()
