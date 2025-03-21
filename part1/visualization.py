@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from game import *
 from policy import EpsilonGreedyPolicy, QLearningPolicy
-from replicator_dynamic import compute_vector_field
+from replicator_dynamic import compute_replicator_field
 
 
 def visualize_policy_traces(histories, ax):
@@ -45,7 +45,8 @@ def visualize_policy_traces(histories, ax):
 def plot_vector_field(policy, rewards, ax, grid_size, lr):
     if isinstance(policy, EpsilonGreedyPolicy):
         return
-    X, Y, U, V = compute_vector_field(policy, rewards, grid_size, lr)
+    X, Y, U, V = compute_replicator_field(rewards, grid_size, policy.temperature)
+    # X, Y, U, V = compute_vector_field(policy, rewards, grid_size, lr)
     magnitudes = np.sqrt(U**2 + V**2)
 
     ax.quiver(X, Y, U, V, magnitudes, width=0.002, pivot="tail")
@@ -65,7 +66,7 @@ def configure_figure(qlearning: QLearningPolicy, game: Game, ax):
             f"Empirical policy traces {game.name} with overlayed replicator dynamics ({qlearning.name})"
         )
         ax.set_xlabel(
-            f"Probability for player 2 of selecting action {game.action_names[0]}.png"
+            f"Probability for player 2 of selecting action {game.action_names[0]}"
         )
         ax.set_ylabel(
             f"Probability for player 2 of selecting action {game.action_names[0]}"
@@ -104,7 +105,6 @@ def configure_figure(qlearning: QLearningPolicy, game: Game, ax):
 
     ax.legend(handles=handles, labels=labels, loc="lower right")
     plt.savefig(f"./plots/replicator_trajectoreis_{game.name}_{qlearning.name}")
-    plt.show(block=False)
 
 
 # def visualize_training(histories, action_names, game_name):

@@ -79,7 +79,6 @@ class BoltzmannPolicy(QLearningPolicy):
 
         reward_p1, reward_p2 = rewards[action_p1][action_p2]
 
-        # TODO: is this correct way to implment Q_leraning?
         q_val_p1[action_p1] += lr * (reward_p1 - q_val_p1[action_p1])
         q_val_p2[action_p2] += lr * (reward_p2 - q_val_p2[action_p2])
 

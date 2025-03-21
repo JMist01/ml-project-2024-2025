@@ -78,9 +78,9 @@ def run_experiment(game: Game, qlearning: QLearningPolicy):
 
     visualize_policy_traces(history, ax=ax)
     configure_figure(qlearning, game, ax)
-    print("\nFinal Q-values:")
-    print(f"Player 1: {[q for q in q_val_p1]}")
-    print(f"Player 2: {[q for q in q_val_p2]}")
+    # print("\nFinal Q-values:")
+    # print(f"Player 1: {[q for q in q_val_p1]}")
+    # print(f"Player 2: {[q for q in q_val_p2]}")
 
 
 # TODO:
@@ -103,12 +103,13 @@ def run_all_games():
 
 
 if __name__ == "__main__":
-    run_all_games()
-    # learning = EpsilonGreedyPolicy(0.2)
-    # learning = BoltzmannPolicy(0.3)
-    # qlearning = LenientBoltzmannPolicy()
-    # run_experiment(StagHunt(), qlearning)
+    # run_all_games()
+    learning = EpsilonGreedyPolicy(0.2)
+    learning = BoltzmannPolicy(0.3)
+    qlearning = LenientBoltzmannPolicy()
+    run_experiment(StagHunt(), qlearning)
     # run_experiment(PrisonersDilemma())
     # run_experiment(MatchingPennies())
     # run_experiment(SubsidyGame())
+    # plt.show()
     plt.show()
