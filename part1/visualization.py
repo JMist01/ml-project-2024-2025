@@ -2,7 +2,7 @@ import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
 import numpy as np
 from game import *
-from policy import EpsilonGreedyPolicy, QLearningPolicy
+from policy import BoltzmannPolicy, EpsilonGreedyPolicy, QLearningPolicy
 from replicator_dynamic import compute_replicator_field
 
 
@@ -42,10 +42,10 @@ def visualize_policy_traces(histories, ax):
         )
 
 
-def plot_vector_field(policy, rewards, ax, grid_size, lr):
+def plot_vector_field(policy: BoltzmannPolicy, rewards, ax, grid_size):
     if isinstance(policy, EpsilonGreedyPolicy):
         return
-    X, Y, U, V = compute_replicator_field(rewards, grid_size, policy.temperature)
+    X, Y, U, V = compute_replicator_field(rewards, grid_size, policy)
     # X, Y, U, V = compute_vector_field(policy, rewards, grid_size, lr)
     magnitudes = np.sqrt(U**2 + V**2)
 
