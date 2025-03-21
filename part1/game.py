@@ -4,24 +4,21 @@ class Game:
     action_names: list[str]
 
 
-class PrisonersDilemma(Game):
-    rewards = [
-        [(3, 3), (0, 5)],
-        [(5, 0), (1, 1)],
-    ]
-    action_names = ["Cooperate", "Defect"]
-    name = "Prisoner's Dilemma"
-
-
 class StagHunt(Game):
     # TODO: rewert to correct valeus
     rewards = [[(4, 4), (1, 3)], [(3, 1), (3, 3)]]
-    # rewards = [
-    #     [(1, 1), (0, 2 / 3)],
-    #     [(2 / 3, 0), (2 / 3, 2 / 3)],
-    # ]
+    # rewards = [[(1, 1), (0, 2 / 3)], [(2 / 3, 0), (2 / 3, 2 / 3)]]
     action_names = ["Stag", "Hare"]
     name = "Stag Hunt"
+
+
+class SubsidyGame(Game):
+    rewards = [
+        [(12, 12), (0, 11)],
+        [(11, 0), (10, 10)],
+    ]
+    action_names = ["S1", "S2"]
+    name = "Subsidy Game"
 
 
 class MatchingPennies(Game):
@@ -33,10 +30,10 @@ class MatchingPennies(Game):
     name = "Matching Pennies"
 
 
-class SubsidyGame(Game):
+class PrisonersDilemma(Game):
     rewards = [
-        [(12, 12), (0, 11)],
-        [(11, 0), (10, 10)],
+        [(3, 3), (0, 5)],
+        [(5, 0), (1, 1)],
     ]
-    action_names = ["S1", "S2"]
-    name = "Subsidy Game"
+    action_names = ["Cooperate", "Defect"]
+    name = "Prisoner's Dilemma"
