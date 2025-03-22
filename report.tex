@@ -3,6 +3,8 @@
 \usepackage{amssymb}
 \usepackage[lmargin=71pt, tmargin=1.2in]{geometry}  %For centering solution box
 \usepackage[shortlabels]{enumitem}
+\usepackage{subcaption}
+\usepackage[final]{graphicx}
 \lhead{Leaft Header\\}
 \rhead{Right Header\\}
 % \chead{\hline} % Un-comment to draw line below header
@@ -56,8 +58,98 @@
 
 \subsection{}
 
-T
+The e-Greedy algorithm converges to the Nash Equilibrium for all games. Even when an algorithm converges to the Pareto Optimal solution, it starts to move towards the Nash Equilibrium
+as the number of iterations increases. This is because the Nash Equilibrium is the most stable solution, which random choices will favor. The values plotted are the q-values of the agents
+and so each of the quarters represents a game outcome as the agents pick the action with the highest q-value deterministically.
 
+\begin{figure}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Stag Hunt_epsilon_greedy.png}
+      \caption{e-Greedy Stag Hunt}
+      \label{fig:sfigesh}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy Game_epsilon_greedy.png}
+      \caption{e-Greedy Subsidy Game}
+      \label{fig:sfigesg}
+    \end{subfigure}\\
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Matching Pennies_epsilon_greedy.png}
+      \caption{e-Greedy Matching Pennies}
+      \label{fig:sfigemp}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Prisoner's Dilemma_epsilon_greedy.png}
+      \caption{e-Greedy Prisoner's Dilemma}
+      \label{fig:sfigepd}
+    \end{subfigure}%
+\end{figure}
+
+The Boltzmann algorithm converges to either the Nash Equilibrium or the Pareto Optimal solution. The Boltzmann algorithm is more likely to converge to the Pareto Optimal solution
+compared to the e-Greedy algorithm, and it doesn't deviate from that point. The algorithm will basically find an optimal solution (either Nash or Pareto) and stick to it.
+Which on is favored depends on the starting distance from the point and the rewards of the game. It seams to favor the Nash Equilibrium slightly more than the Pareto Optimal solution.
+
+\begin{figure}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Stag Hunt_boltzmann.png}
+      \caption{Boltzmann Q-Learning Stag Hunt}
+      \label{fig:sfigbsh}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy Game_boltzmann.png}
+      \caption{Boltzmann Q-Learning Subsidy Game}
+      \label{fig:sfigbsg}
+    \end{subfigure}\\
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Matching Pennies_boltzmann.png}
+      \caption{Boltzmann Q-Learning Matching Pennies}
+      \label{fig:sfigbmp}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Prisoner's Dilemma_boltzmann.png}
+      \caption{Boltzmann Q-Learning Prisoner's Dilemma}
+      \label{fig:sfigbpd}
+    \end{subfigure}%
+\end{figure}
+
+For the Lenient Boltzmann Q-Learning algorithm, the results are similar to the Boltzmann Q-Learning algorithm. The main advantage of the Lenient Boltzmann Q-Learning algorithm is that it
+allow for more exploration, by allowing for some suboptimal choices. This can be seen in the plots, where the algorithm is more likely to explore the state space and find the Pareto Optimal solution.
+The existence of the k value allow for the algorithm to explore more or less, depending on the value of k.
+
+\begin{figure}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Stag Hunt_lenient_boltzmann.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Stag Hunt}
+      \label{fig:sfiglbsh}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy Game_lenient_boltzmann.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Subsidy Game}
+      \label{fig:sfiglbsg}
+    \end{subfigure}\\
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Matching Pennies_lenient_boltzmann.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Matching Pennies}
+      \label{fig:sfiglbmp}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Prisoner's Dilemma_lenient_boltzmann.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Prisoner's Dilemma}
+      \label{fig:sfiglbpd}
+    \end{subfigure}%
+\end{figure}
 \subsection{}
 
 \section{\textbf{Task 3:}}
