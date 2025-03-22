@@ -6,8 +6,9 @@ class Game:
 
 class StagHunt(Game):
     # TODO: rewert to correct valeus
-    rewards = [[(4, 4), (1, 3)], [(3, 1), (3, 3)]]
-    # rewards = [[(1, 1), (0, 2 / 3)], [(2 / 3, 0), (2 / 3, 2 / 3)]]
+    # rewards = [[(4, 4), (1, 3)], [(3, 1), (3, 3)]]  # valeus from paper
+    # values from assignment
+    rewards = [[(1, 1), (0, 2 / 3)], [(2 / 3, 0), (2 / 3, 2 / 3)]]
     action_names = ["Stag", "Hare"]
     name = "Stag Hunt"
 

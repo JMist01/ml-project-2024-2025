@@ -46,15 +46,14 @@ def plot_vector_field(policy: BoltzmannPolicy, rewards, ax, grid_size):
     if isinstance(policy, EpsilonGreedyPolicy):
         return
     X, Y, U, V = compute_replicator_field(rewards, grid_size, policy)
-    # X, Y, U, V = compute_vector_field(policy, rewards, grid_size, lr)
     magnitudes = np.sqrt(U**2 + V**2)
 
     ax.quiver(X, Y, U, V, magnitudes, width=0.002, pivot="tail")
 
 
-def configure_figure(qlearning: QLearningPolicy, game: Game, ax):
-    if isinstance(qlearning, EpsilonGreedyPolicy):
-        ax.set_title(f"Empirical policy traces {game.name} ({qlearning.name})")
+def configure_figure(policy: QLearningPolicy, game: Game, ax):
+    if isinstance(policy, EpsilonGreedyPolicy):
+        ax.set_title(f"Empirical policy traces {game.name} ({policy.get_name()})")
         ax.set_xlabel(
             f"Normalized Q-values for player 1 for action {game.action_names[0]}"
         )
@@ -63,7 +62,7 @@ def configure_figure(qlearning: QLearningPolicy, game: Game, ax):
         )
     else:
         ax.set_title(
-            f"Empirical policy traces {game.name} with overlayed replicator dynamics ({qlearning.name})"
+            f"Empirical policy traces {game.name} with overlayed replicator dynamics ({policy.get_name()})"
         )
         ax.set_xlabel(
             f"Probability for player 2 of selecting action {game.action_names[0]}"
@@ -104,7 +103,7 @@ def configure_figure(qlearning: QLearningPolicy, game: Game, ax):
     labels = ["Beginning of trace", "End of trace"]
 
     ax.legend(handles=handles, labels=labels, loc="lower right")
-    plt.savefig(f"./plots/replicator_trajectoreis_{game.name}_{qlearning.name}")
+    plt.savefig(f"./plots/replicator_trajectoreis_{game.name}_{policy.get_name()}")
 
 
 # def visualize_training(histories, action_names, game_name):
