@@ -10,7 +10,7 @@ class StagHunt(Game):
     # values from assignment
     rewards = [[(1, 1), (0, 2 / 3)], [(2 / 3, 0), (2 / 3, 2 / 3)]]
     action_names = ["Stag", "Hare"]
-    name = "Stag Hunt"
+    name = "Stag_Hunt"
 
 
 class SubsidyGame(Game):
@@ -19,7 +19,7 @@ class SubsidyGame(Game):
         [(11, 0), (10, 10)],
     ]
     action_names = ["S1", "S2"]
-    name = "Subsidy Game"
+    name = "Subsidy_Game"
 
 
 class MatchingPennies(Game):
@@ -28,7 +28,7 @@ class MatchingPennies(Game):
         [(1, 0), (0, 1)],
     ]
     action_names = ["Heads", "Tails"]
-    name = "Matching Pennies"
+    name = "Matching_Pennies"
 
 
 class PrisonersDilemma(Game):
@@ -37,4 +37,4 @@ class PrisonersDilemma(Game):
         [(5, 0), (1, 1)],
     ]
     action_names = ["Cooperate", "Defect"]
-    name = "Prisoner's Dilemma"
+    name = "Prisoner_Dilemma"
