@@ -5,6 +5,7 @@
 \usepackage[shortlabels]{enumitem}
 \usepackage{subcaption}
 \usepackage[final]{graphicx}
+\usepackage{float}
 \lhead{Leaft Header\\}
 \rhead{Right Header\\}
 % \chead{\hline} % Un-comment to draw line below header
@@ -59,41 +60,15 @@
 \subsection{}
 
 The e-Greedy algorithm converges to the Nash Equilibrium for all games. Even when an algorithm converges to the Pareto Optimal solution, it starts to move towards the Nash Equilibrium
-as the number of iterations increases. This is because the Nash Equilibrium is the most stable solution, which random choices will favor. The values plotted are the q-values of the agents
-and so each of the quarters represents a game outcome as the agents pick the action with the highest q-value deterministically.
-
-\begin{figure}
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Stag_Hunt_epsilon_greedy.png}
-      \caption{e-Greedy Stag Hunt}
-      \label{fig:sfigesh}
-    \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy_Game_epsilon_greedy.png}
-      \caption{e-Greedy Subsidy Game}
-      \label{fig:sfigesg}
-    \end{subfigure}\\
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Matching_Pennies_epsilon_greedy.png}
-      \caption{e-Greedy Matching Pennies}
-      \label{fig:sfigemp}
-    \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Prisoner_Dilemma_epsilon_greedy.png}
-      \caption{e-Greedy Prisoner's Dilemma}
-      \label{fig:sfigepd}
-    \end{subfigure}%
-\end{figure}
+as the number of iterations increases. This is because the Nash Equilibrium is the most stable solution, which random choices will favor. For the learning trajectories of e-Greedy,
+the action choice depends on q values and it is picked deterministically. This makes it complicated to plot the learning trajectories, as the probabilities to chose an action are 
+constant making it hard to plot a graph. 
 
 The Boltzmann algorithm converges to either the Nash Equilibrium or the Pareto Optimal solution. The Boltzmann algorithm is more likely to converge to the Pareto Optimal solution
 compared to the e-Greedy algorithm, and it doesn't deviate from that point. The algorithm will basically find an optimal solution (either Nash or Pareto) and stick to it.
 Which on is favored depends on the starting distance from the point and the rewards of the game. It seams to favor the Nash Equilibrium slightly more than the Pareto Optimal solution.
 
-\begin{figure}
+\begin{figure}[H]
     \begin{subfigure}{.5\textwidth}
       \centering
       \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Stag_Hunt_boltzmann.png}
@@ -121,10 +96,10 @@ Which on is favored depends on the starting distance from the point and the rewa
 \end{figure}
 
 For the Lenient Boltzmann Q-Learning algorithm, the results are similar to the Boltzmann Q-Learning algorithm. The main advantage of the Lenient Boltzmann Q-Learning algorithm is that it
-allow for more exploration, by allowing for some suboptimal choices. This can be seen in the plots, where the algorithm is more likely to explore the state space and find the Pareto Optimal solution.
-The existence of the k value allow for the algorithm to explore more or less, depending on the value of k.
+evaluates multiple actions when performing an action thus allowing for better exploration of the problem space. This can be seen in the plots, where the algorithm is more likely to explore
+the problem space and find the Pareto Optimal solutions. The existence of the k value allow for the algorithm to explore more or less, depending on the value of k.
 
-\begin{figure}
+\begin{figure}[H]
     \begin{subfigure}{.5\textwidth}
       \centering
       \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Stag_Hunt_lenient_boltzmann_K=5.png}
@@ -151,10 +126,41 @@ The existence of the k value allow for the algorithm to explore more or less, de
     \end{subfigure}%
 \end{figure}
 
+By changing the k value of the Lenient Boltzmann Q-Learning algorithm, the learning trajectories change.
+Higher k values provide significantly better results which can be seen in the plots \ref{fig:sfiglbshk1} - \ref{fig:sfiglbshk25}.
+
+\begin{figure}[H]
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy_Game_lenient_boltzmann_K=1.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Subsidy Game (K=1)}
+      \label{fig:sfiglbshk1}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy_Game_lenient_boltzmann_K=2.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Subsidy Game (K=2)}
+      \label{fig:sfiglbshk2}
+    \end{subfigure}\\
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy_Game_lenient_boltzmann_K=5.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Subsidy Game (K=5)}
+      \label{fig:sfiglbshk5}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{plots/replicator_trajectoreis_Subsidy_Game_lenient_boltzmann_K=25.png}
+      \caption{Lenient Boltzmann Q-Learning\\ Subsidy Game (K=25)}
+      \label{fig:sfiglbshk25}
+    \end{subfigure}
+\end{figure}
+
 \subsection{}
 
 The learning trajectories are behaving as expected and do follow the replicator dynamics. For each of the games learning follow the dynamics, especially for the Lenient Boltzmann Q-Learning algorithm
-were the changes of the k value affects both dynamics and trajectories making the match between the two very visible.
+were the changes of the k value affects both dynamics and trajectories making the match between the two very visible. The results can be seen in the figures above \ref{fig:sfiglbshk1} were the
+effect of the k value can shift the learning trajectories to converge to a better solution even if it's not the Nash Equilibrium.
 
 \section{\textbf{Task 3:}}
 
