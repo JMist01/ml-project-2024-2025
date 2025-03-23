@@ -28,6 +28,39 @@
 
 \section{\textbf{Task 1:}}
 
+\subsection{A Comprehensive Survey of Multiagent Reinforcement Learning}
+
+From this paper we are interested mostly in the e-Greedy algorithm and the Boltzmann algorithm. This algorithms were implemented as described in the paper and tested on the canonical games.
+E-Greedy is a simple algorithm that chooses the best action according to the greedy policy \ref{eq:egreedy} with probability 1 - $\epsilon$ and a random action with probability $\epsilon$.
+\begin{equation}\label{eq:egreedy}
+    \bar{h}(x) = argmax_{a \in A} Q(x,a)
+\end{equation}
+where $Q(x,a)$ is the Q value of the action a in the state x, and A is the set of all possible actions.
+The use of a probability $\epsilon$ allows for exploration of the problem space and satisfies the requirement for convergence that the agent needs to keeps trying all actions
+in all states with nonzero probability.
+
+The Boltzmann algorithm is a more complex algorithm that chooses the next action with probability
+\begin{equation}\label{eq:boltzmann}
+    P(a) = \frac{e^{Q(x,a)/\tau}}{\sum_{a' \in A} e^{Q(x,a')/\tau}}
+\end{equation}
+where $\tau$ is the temperature parameter. The Boltzmann algorithm is a stochastic algorithm that allows for exploration of the problem space. The temperature parameter $\tau$ is responsible
+for the amount of exploration the algorithm will perform. A high $\tau$ value will make the algorithm explore more, while a low $\tau$ value will make the algorithm exploit more.
+
+\subsection{Evolutionary Dynamics of Multi-Agent Learning: A Survey}
+
+From this paper we are interested in the Lenient Boltzmann algorithm. The Lenient Boltzmann algorithm is a modification of the Boltzmann algorithm that evaluates actions more optimistically.
+This is done by letting the agent evaluate their action against k possible actions from the opponent and keeping the best reward. In this way potential mistakes in the start of the training
+are not punished as hard as in the Boltzmann algorithm.
+
+Replicator dynamics are also explained in this paper. The replicator dynamics are a set of differential equations that describe the evolution of the population of strategies in a game.
+Specifically, the model the change in the frequency of strategies in a population. This population can be described as a state vector $x = (x_1, x_2, ..., x_n)$ where $x_i$ is the frequency of
+strategy i in the population. If the fitness of these strategies is given by the fitness function $f(x)$, the replicator dynamics are given by the equation
+\begin{equation}\label{eq:replicator}
+    \dot{x_i} = x_i(f_i(x) - \bar{f}(x))
+\end{equation}
+where $f_i(x)$ is the fitness of strategy i and $\bar{f}(x)$ is the average fitness of the population.
+
+% TODO: Add as references
 \section{\textbf{Task 2:}}
 \subsection{}
 \begin{itemize}
