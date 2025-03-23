@@ -6,3 +6,5 @@ __pycache__/*
 *.log
 *.synctex.gz
 .vscode
+report.fls
+report.fdb_latexmk
